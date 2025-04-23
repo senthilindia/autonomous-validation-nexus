@@ -3,6 +3,7 @@ import { Home, BarChart2, FileText, Settings, Users, Database, Server, Layers, C
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   className?: string;
@@ -10,6 +11,18 @@ interface SidebarProps {
 
 export function AppSidebar({ className }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const menuItems = [
+    { icon: Home, title: "Dashboard", path: "/" },
+    { icon: Layers, title: "Simulations", path: "/simulations" },
+    { icon: FileText, title: "Test Cases", path: "/test-cases" },
+    { icon: BarChart2, title: "Analytics", path: "/analytics" },
+    { icon: Server, title: "Infrastructure", path: "/infrastructure" },
+    { icon: Database, title: "Data Management", path: "/data" },
+    { icon: Users, title: "Teams", path: "/teams" },
+    { icon: Settings, title: "Settings", path: "/settings" }
+  ];
 
   return (
     <div
@@ -34,14 +47,27 @@ export function AppSidebar({ className }: SidebarProps) {
       </div>
       
       <nav className="flex-1 p-2 space-y-1">
-        <SidebarItem icon={Home} title="Dashboard" active={true} collapsed={collapsed} />
-        <SidebarItem icon={Layers} title="Simulations" collapsed={collapsed} />
-        <SidebarItem icon={FileText} title="Test Cases" collapsed={collapsed} />
-        <SidebarItem icon={BarChart2} title="Analytics" collapsed={collapsed} />
-        <SidebarItem icon={Server} title="Infrastructure" collapsed={collapsed} />
-        <SidebarItem icon={Database} title="Data Management" collapsed={collapsed} />
-        <SidebarItem icon={Users} title="Teams" collapsed={collapsed} />
-        <SidebarItem icon={Settings} title="Settings" collapsed={collapsed} />
+        {menuItems.map((item) => (
+          <Button
+            key={item.title}
+            variant={location.pathname === item.path ? "secondary" : "ghost"}
+            className={cn(
+              "w-full justify-start",
+              location.pathname === item.path 
+                ? "bg-sidebar-accent text-sidebar-accent-foreground" 
+                : "text-sidebar-foreground"
+            )}
+            asChild
+          >
+            <Link to={item.path}>
+              <item.icon className={cn(
+                "h-5 w-5",
+                location.pathname === item.path && "text-helix-600"
+              )} />
+              {!collapsed && <span className="ml-2">{item.title}</span>}
+            </Link>
+          </Button>
+        ))}
       </nav>
       
       <div className="p-2 border-t border-border">
@@ -58,27 +84,5 @@ export function AppSidebar({ className }: SidebarProps) {
         </div>
       </div>
     </div>
-  );
-}
-
-interface SidebarItemProps {
-  icon: any;
-  title: string;
-  active?: boolean;
-  collapsed?: boolean;
-}
-
-function SidebarItem({ icon: Icon, title, active, collapsed }: SidebarItemProps) {
-  return (
-    <Button
-      variant={active ? "secondary" : "ghost"}
-      className={cn(
-        "w-full justify-start",
-        active ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground"
-      )}
-    >
-      <Icon className={cn("h-5 w-5", active && "text-helix-600")} />
-      {!collapsed && <span className="ml-2">{title}</span>}
-    </Button>
   );
 }
