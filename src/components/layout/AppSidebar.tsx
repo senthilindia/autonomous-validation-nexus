@@ -9,20 +9,44 @@ interface SidebarProps {
   className?: string;
 }
 
+type AccessLevel = "all" | "admin" | "engineer" | "viewer";
+
+interface MenuItem {
+  icon: React.ComponentType<{ size?: number | string; className?: string }>;
+  title: string;
+  path: string;
+  accessLevel: AccessLevel;
+}
+
+// Current user role - In a real app, this would come from authentication context
+const currentUserRole: AccessLevel = "admin";
+
 export function AppSidebar({ className }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
-  const menuItems = [
-    { icon: Home, title: "Dashboard", path: "/" },
-    { icon: Layers, title: "Simulations", path: "/simulations" },
-    { icon: FileText, title: "Test Cases", path: "/test-cases" },
-    { icon: BarChart2, title: "Analytics", path: "/analytics" },
-    { icon: Server, title: "Infrastructure", path: "/infrastructure" },
-    { icon: Database, title: "Data Management", path: "/data" },
-    { icon: Users, title: "Teams", path: "/teams" },
-    { icon: Settings, title: "Settings", path: "/settings" }
+  const menuItems: MenuItem[] = [
+    { icon: Home, title: "Dashboard", path: "/", accessLevel: "all" },
+    { icon: Layers, title: "Simulations", path: "/simulations", accessLevel: "all" },
+    { icon: FileText, title: "Test Cases", path: "/test-cases", accessLevel: "all" },
+    { icon: BarChart2, title: "Analytics", path: "/analytics", accessLevel: "all" },
+    { icon: Server, title: "Infrastructure", path: "/infrastructure", accessLevel: "engineer" },
+    { icon: Database, title: "Data Management", path: "/data", accessLevel: "admin" },
+    { icon: Users, title: "Teams", path: "/teams", accessLevel: "admin" },
+    { icon: Settings, title: "Settings", path: "/settings", accessLevel: "admin" }
   ];
+
+  // Access control function
+  const hasAccess = (requiredLevel: AccessLevel): boolean => {
+    if (requiredLevel === "all") return true;
+    if (currentUserRole === "admin") return true;
+    if (currentUserRole === "engineer" && requiredLevel !== "admin") return true;
+    if (currentUserRole === "viewer" && requiredLevel === "viewer") return true;
+    return false;
+  };
+
+  // Filter menu items based on access
+  const accessibleMenuItems = menuItems.filter(item => hasAccess(item.accessLevel));
 
   return (
     <div
@@ -47,7 +71,7 @@ export function AppSidebar({ className }: SidebarProps) {
       </div>
       
       <nav className="flex-1 p-2 space-y-1">
-        {menuItems.map((item) => (
+        {accessibleMenuItems.map((item) => (
           <Button
             key={item.title}
             variant={location.pathname === item.path ? "secondary" : "ghost"}
@@ -55,7 +79,8 @@ export function AppSidebar({ className }: SidebarProps) {
               "w-full justify-start",
               location.pathname === item.path 
                 ? "bg-sidebar-accent text-sidebar-accent-foreground" 
-                : "text-sidebar-foreground"
+                : "text-sidebar-foreground",
+              item.accessLevel === "admin" && "border-l-2 border-helix-600"
             )}
             asChild
           >
@@ -64,7 +89,14 @@ export function AppSidebar({ className }: SidebarProps) {
                 "h-5 w-5",
                 location.pathname === item.path && "text-helix-600"
               )} />
-              {!collapsed && <span className="ml-2">{item.title}</span>}
+              {!collapsed && (
+                <div className="ml-2 flex items-center gap-2">
+                  <span>{item.title}</span>
+                  {item.accessLevel === "admin" && (
+                    <span className="text-xs px-1.5 py-0.5 bg-helix-100 text-helix-700 rounded-md">Admin</span>
+                  )}
+                </div>
+              )}
             </Link>
           </Button>
         ))}
