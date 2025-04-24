@@ -1,10 +1,16 @@
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SimulationCard, SimulationProps } from "@/components/simulations/SimulationCard";
-import { Database, Server } from "lucide-react";
+import { EnhancedSimulationCard } from "@/components/simulations/EnhancedSimulationCard";
+import { Database, Server, Maximize2, Minimize2 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Simulations = () => {
+  const [viewMode, setViewMode] = useState<"simple" | "enhanced">("enhanced");
+  
   const simulations: SimulationProps[] = [
     {
       id: 1,
@@ -58,7 +64,7 @@ const Simulations = () => {
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-helix-700 to-helix-500">
             Simulations
           </h1>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <Badge variant="outline" className="flex items-center gap-1">
               <span className="h-2 w-2 rounded-full bg-amber-500"></span>
               SIL: {silSimulations.length}
@@ -67,6 +73,15 @@ const Simulations = () => {
               <span className="h-2 w-2 rounded-full bg-blue-500"></span>
               HIL: {hilSimulations.length}
             </Badge>
+            
+            <div className="ml-4 border-l pl-4 flex items-center">
+              <Tabs defaultValue={viewMode} onValueChange={(v) => setViewMode(v as "simple" | "enhanced")}>
+                <TabsList className="h-8">
+                  <TabsTrigger value="simple" className="text-xs px-3 h-7">Simple View</TabsTrigger>
+                  <TabsTrigger value="enhanced" className="text-xs px-3 h-7">Enhanced View</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
           </div>
         </div>
 
@@ -74,10 +89,17 @@ const Simulations = () => {
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <Database size={16} className="text-amber-500" /> 
             Software-in-the-Loop Simulations
+            <span className="text-xs text-muted-foreground font-normal ml-2">
+              Pure software simulation environment
+            </span>
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {silSimulations.map((sim) => (
-              <SimulationCard key={sim.id} simulation={sim} />
+              viewMode === "simple" ? (
+                <SimulationCard key={sim.id} simulation={sim} />
+              ) : (
+                <EnhancedSimulationCard key={sim.id} simulation={sim} />
+              )
             ))}
           </div>
         </div>
@@ -86,10 +108,17 @@ const Simulations = () => {
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <Server size={16} className="text-blue-500" /> 
             Hardware-in-the-Loop Simulations
+            <span className="text-xs text-muted-foreground font-normal ml-2">
+              Hardware components in virtual environment
+            </span>
           </h2>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {hilSimulations.map((sim) => (
-              <SimulationCard key={sim.id} simulation={sim} />
+              viewMode === "simple" ? (
+                <SimulationCard key={sim.id} simulation={sim} />
+              ) : (
+                <EnhancedSimulationCard key={sim.id} simulation={sim} />
+              )
             ))}
           </div>
         </div>
