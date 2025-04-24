@@ -1,6 +1,6 @@
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Text, Html } from '@react-three/drei';
 import { DataParticles } from './simulation/DataParticles';
 import { ProcessingUnit } from './simulation/ProcessingUnit';
 import { AdvancedVehicle } from './simulation/AdvancedVehicle';
