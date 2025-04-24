@@ -9,11 +9,12 @@ interface PageLayoutProps {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90">
       <AppSidebar />
       <div className="flex flex-col flex-1">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-transparent to-blue-50/30 pointer-events-none" />
           {children}
         </main>
         <Footer />

@@ -1,4 +1,3 @@
-
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Text, Html } from '@react-three/drei';
 import { DataParticles } from './simulation/DataParticles';
@@ -17,22 +16,40 @@ function Scene({ type, active = true }: SceneProps) {
   const pulseColor = type === 'SIL' ? "#ff9900" : "#3b82f6";
   const ambientIntensity = type === 'SIL' ? 0.6 : 0.4;
   
+  // Enhanced theme-specific colors
+  const themeColors = {
+    SIL: {
+      fog: '#fdf6e3',
+      ambient: '#fffcf0',
+      spotlight: '#ffecd1'
+    },
+    HIL: {
+      fog: '#e7f0fd',
+      ambient: '#e0f0ff',
+      spotlight: '#d1e9ff'
+    }
+  };
+  
+  const colors = type === 'SIL' ? themeColors.SIL : themeColors.HIL;
+  
   return (
     <>
-      <ambientLight intensity={ambientIntensity} />
+      <color attach="background" args={[colors.fog]} />
+      <ambientLight intensity={ambientIntensity} color={colors.ambient} />
       <spotLight 
         position={[10, 15, 10]} 
         angle={0.3} 
         penumbra={1} 
         castShadow 
-        intensity={1.5} 
+        intensity={1.5}
+        color={colors.spotlight}
       />
       <hemisphereLight 
-        args={[type === 'SIL' ? '#fffcf0' : '#e0f0ff', '#000000', 0.7]} 
+        args={[colors.ambient, '#000000', 0.7]} 
       />
       
       <PerspectiveCamera makeDefault position={[8, 5, 8]} />
-      <fog attach="fog" args={[type === 'SIL' ? '#fdf6e3' : '#e7f0fd', 15, 25]} />
+      <fog attach="fog" args={[colors.fog, 15, 25]} />
       
       <Ground type={type} />
       
