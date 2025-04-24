@@ -1,4 +1,3 @@
-
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,11 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Settings as SettingsIcon, Bell, Shield, User, Database, Globe } from "lucide-react";
+import { Settings as SettingsIcon, Bell, Shield, User, Database } from "lucide-react";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 const Settings = () => {
+  const { theme, setTheme } = useTheme();
+
+  const handleDarkModeToggle = (checked: boolean) => {
+    setTheme(checked ? "dark" : "light");
+    toast.success(`${checked ? "Dark" : "Light"} mode enabled`);
+  };
+
   return (
     <PageLayout>
       <div className="container py-6">
@@ -82,7 +89,11 @@ const Settings = () => {
                               Enable dark mode for the application interface
                             </p>
                           </div>
-                          <Switch id="dark-mode" />
+                          <Switch 
+                            id="dark-mode"
+                            checked={theme === "dark"}
+                            onCheckedChange={handleDarkModeToggle}
+                          />
                         </div>
                         <div className="flex items-center justify-between">
                           <div>
