@@ -1,6 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const TestCases = () => {
   const testCases = [
@@ -31,53 +32,57 @@ const TestCases = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Test Cases</h1>
-        <div className="flex gap-2">
-          <Badge variant="outline">Total: 150</Badge>
-          <Badge variant="default">Passed: 142</Badge>
-          <Badge variant="destructive">Failed: 8</Badge>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Test Cases</h1>
+          <div className="flex gap-2">
+            <Badge variant="outline">Total: 150</Badge>
+            <Badge variant="default">Passed: 142</Badge>
+            <Badge variant="destructive">Failed: 8</Badge>
+          </div>
         </div>
-      </div>
 
-      <div className="grid gap-4">
-        {testCases.map((test) => (
-          <Card key={test.id}>
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-lg">{test.name}</CardTitle>
-                <Badge variant={
-                  test.status === "Passed" ? "default" :
-                  test.status === "Failed" ? "destructive" : "outline"
-                }>
-                  {test.status}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-muted-foreground">Test ID</p>
-                  <p className="font-medium">{test.id}</p>
+        <div className="grid gap-4">
+          {testCases.map((test) => (
+            <Card key={test.id}>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="text-lg">{test.name}</CardTitle>
+                  <Badge variant={
+                    test.status === "Passed" ? "default" :
+                    test.status === "Failed" ? "destructive" : "outline"
+                  }>
+                    {test.status}
+                  </Badge>
                 </div>
-                <div>
-                  <p className="text-muted-foreground">Execution Time</p>
-                  <p className="font-medium">{test.executionTime}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-muted-foreground">Test ID</p>
+                    <p className="font-medium">{test.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Execution Time</p>
+                    <p className="font-medium">{test.executionTime}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Last Run</p>
+                    <p className="font-medium">{test.lastRun}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Coverage</p>
+                    <p className="font-medium">{test.coverage}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-muted-foreground">Last Run</p>
-                  <p className="font-medium">{test.lastRun}</p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">Coverage</p>
-                  <p className="font-medium">{test.coverage}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };

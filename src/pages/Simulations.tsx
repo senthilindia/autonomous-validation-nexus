@@ -1,6 +1,7 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const Simulations = () => {
   const simulations = [
@@ -31,45 +32,49 @@ const Simulations = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Simulations</h1>
-        <Badge variant="outline">3 Active Simulations</Badge>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Simulations</h1>
+          <Badge variant="outline">3 Active Simulations</Badge>
+        </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {simulations.map((sim) => (
-          <Card key={sim.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {sim.name}
-              </CardTitle>
-              <Badge variant={
-                sim.status === "Running" ? "default" :
-                sim.status === "Completed" ? "secondary" : "outline"
-              }>
-                {sim.status}
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Type:</span>
-                  <span>{sim.type}</span>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {simulations.map((sim) => (
+            <Card key={sim.id}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {sim.name}
+                </CardTitle>
+                <Badge variant={
+                  sim.status === "Running" ? "default" :
+                  sim.status === "Completed" ? "secondary" : "outline"
+                }>
+                  {sim.status}
+                </Badge>
+              </CardHeader>
+              <CardContent>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Type:</span>
+                    <span>{sim.type}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Progress:</span>
+                    <span>{sim.progress}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Started:</span>
+                    <span>{new Date(sim.startedAt).toLocaleTimeString()}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Progress:</span>
-                  <span>{sim.progress}%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Started:</span>
-                  <span>{new Date(sim.startedAt).toLocaleTimeString()}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
