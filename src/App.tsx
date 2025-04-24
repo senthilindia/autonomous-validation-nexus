@@ -9,6 +9,10 @@ import NotFound from "./pages/NotFound";
 import Simulations from "./pages/Simulations";
 import TestCases from "./pages/TestCases";
 import Analytics from "./pages/Analytics";
+import DataManagement from "./pages/DataManagement";
+import Infrastructure from "./pages/Infrastructure";
+import Teams from "./pages/Teams";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +27,10 @@ const App = () => (
           <Route path="/simulations" element={<Simulations />} />
           <Route path="/test-cases" element={<TestCases />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/data" element={<DataManagement />} />
+          <Route path="/infrastructure" element={<Infrastructure />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
