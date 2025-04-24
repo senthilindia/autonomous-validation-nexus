@@ -28,6 +28,36 @@ export function Ground({ type }: GroundProps) {
 
   const colors = getGroundColors();
   
+  // Create a canvas-based gradient texture
+  const createGradientTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      // Create gradient
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, colors.base);
+      gradient.addColorStop(1, colors.grid);
+      
+      // Fill with gradient
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    
+    return texture;
+  };
+  
+  // Create and memoize the texture
+  const gradientTexture = useRef<THREE.CanvasTexture>();
+  if (!gradientTexture.current) {
+    gradientTexture.current = createGradientTexture();
+  }
+  
   return (
     <>
       {/* Ground plane with gradient */}
@@ -39,17 +69,12 @@ export function Ground({ type }: GroundProps) {
       >
         <planeGeometry args={[50, 50, 50, 50]} />
         <meshStandardMaterial 
+          map={gradientTexture.current}
           color={colors.base}
           roughness={0.8}
           metalness={0.2}
           wireframe={false}
-        >
-          <gradientTexture
-            attach="map"
-            stops={[0, 1]} // Gradient stops
-            colors={[colors.base, colors.grid]} // Gradient colors
-          />
-        </meshStandardMaterial>
+        />
       </mesh>
 
       {/* Additional ambient light for theme-specific illumination */}
@@ -57,4 +82,3 @@ export function Ground({ type }: GroundProps) {
     </>
   );
 }
-
