@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, useGLTF, Text, Html } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, useGLTF, Text, Html, Line } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Data flow particle effect
@@ -16,7 +16,6 @@ function DataParticles({ type, active }: { type: 'SIL' | 'HIL'; active: boolean 
     const positions = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {
-      // Create in a curved pattern
       const theta = Math.random() * Math.PI * 2;
       const radius = 1.5 + Math.random() * 1.5;
       positions[i * 3] = Math.sin(theta) * radius; // x
@@ -33,13 +32,10 @@ function DataParticles({ type, active }: { type: 'SIL' | 'HIL'; active: boolean 
     const positionArray = particlesRef.current.geometry.attributes.position.array as Float32Array;
     
     for (let i = 0; i < count; i++) {
-      // Move particles along paths
       const idx = i * 3;
       
-      // Motion along z axis in direction of car
       positionArray[idx + 2] -= speeds[i];
       
-      // Reset position if it goes too far
       if (positionArray[idx + 2] < -3) {
         positionArray[idx + 2] = 3;
       }
@@ -84,10 +80,8 @@ function ProcessingUnit({ position, type, pulseColor, active }: {
   
   useFrame(() => {
     if (mesh.current && active) {
-      // Rotate slowly
       mesh.current.rotation.y += 0.01;
       
-      // Pulse effect
       setPulse((prevPulse) => (prevPulse + 0.05) % (Math.PI * 2));
     }
   });
@@ -138,10 +132,8 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
     if (!mesh.current || !wheelFL.current || !wheelFR.current || !wheelBL.current || !wheelBR.current) return;
     
     if (active) {
-      // Slight hover effect for the car
       mesh.current.position.y = Math.sin(Date.now() * 0.001) * 0.05;
       
-      // Rotate wheels
       wheelFL.current.rotation.x += 0.1;
       wheelFR.current.rotation.x += 0.1;
       wheelBL.current.rotation.x += 0.1;
@@ -158,7 +150,6 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
       onPointerOver={() => setHover(true)}
       onPointerOut={() => setHover(false)}
     >
-      {/* Car body */}
       <mesh castShadow receiveShadow>
         <boxGeometry args={[4.5, 1.4, 2]} />
         <meshStandardMaterial 
@@ -168,7 +159,6 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
         />
       </mesh>
       
-      {/* Roof */}
       <mesh position={[0, 1.1, 0]} castShadow>
         <boxGeometry args={[3, 1.2, 1.8]} />
         <meshStandardMaterial 
@@ -178,7 +168,6 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
         />
       </mesh>
       
-      {/* Wheels */}
       <mesh ref={wheelFL} position={[-1.5, -0.8, 1.1]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
         <meshStandardMaterial color="#333" roughness={0.8} />
@@ -196,7 +185,6 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
         <meshStandardMaterial color="#333" roughness={0.8} />
       </mesh>
       
-      {/* Headlights */}
       <mesh position={[2.3, 0.2, 0.8]} castShadow>
         <boxGeometry args={[0.1, 0.5, 0.3]} />
         <meshStandardMaterial 
@@ -214,7 +202,6 @@ function AdvancedVehicle({ type, active }: { type: 'SIL' | 'HIL'; active: boolea
         />
       </mesh>
       
-      {/* Windshield */}
       <mesh position={[1, 1.1, 0]} rotation={[0, 0, Math.PI / 6]} castShadow>
         <boxGeometry args={[0.1, 1.5, 1.7]} />
         <meshPhysicalMaterial 
@@ -256,7 +243,6 @@ function Ground({ type }: { type: 'SIL' | 'HIL' }) {
 
 // Data flow connections between processing units
 function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean }) {
-  const lineRef = useRef<THREE.Line>(null);
   const [pulse, setPulse] = useState(0);
   
   useFrame(() => {
@@ -265,7 +251,6 @@ function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean })
     }
   });
   
-  // Create a curved line between points
   const curve = new THREE.CatmullRomCurve3([
     new THREE.Vector3(-4, 0, 0),
     new THREE.Vector3(-3, 1, 2),
@@ -278,29 +263,12 @@ function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean })
   
   return (
     <group>
-      <line ref={lineRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={points.length}
-            array={new Float32Array(points.length * 3)}
-            itemSize={3}
-            onUpdate={(self) => {
-              const array = self.array as Float32Array;
-              for (let i = 0; i < points.length; i++) {
-                array[i * 3] = points[i].x;
-                array[i * 3 + 1] = points[i].y;
-                array[i * 3 + 2] = points[i].z;
-              }
-            }}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial 
-          color={type === 'SIL' ? "#f6ad55" : "#63b3ed"}
-          opacity={active ? 0.8 : 0.3}
-          transparent
-        />
-      </line>
+      <Line
+        points={points}
+        color={type === 'SIL' ? "#f6ad55" : "#63b3ed"}
+        opacity={active ? 0.8 : 0.3}
+        transparent
+      />
       
       {active && (
         <mesh position={[curve.getPoint(pulse).x, curve.getPoint(pulse).y, curve.getPoint(pulse).z]}>
@@ -320,9 +288,7 @@ function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean })
 function InfoPanel({ type, active }: { type: 'SIL' | 'HIL'; active: boolean }) {
   const { camera } = useThree();
   
-  // Always face camera
   useFrame(() => {
-    // This will be handled by Html component
   });
   
   if (!active) return null;
@@ -378,9 +344,7 @@ interface SceneProps {
   active?: boolean;
 }
 
-// The full scene composition
 function Scene({ type, active = true }: SceneProps) {
-  // Define colors
   const pulseColor = type === 'SIL' ? "#ff9900" : "#3b82f6";
   const ambientIntensity = type === 'SIL' ? 0.6 : 0.4;
   
@@ -420,7 +384,6 @@ function Scene({ type, active = true }: SceneProps) {
         <Connections type={type} active={active} />
         <DataParticles type={type} active={active} />
         
-        {/* Additional elements for HIL */}
         {type === 'HIL' && (
           <group>
             <mesh position={[-4, -1, 0]} castShadow>
@@ -440,7 +403,6 @@ function Scene({ type, active = true }: SceneProps) {
               </Html>
             )}
             
-            {/* Small blinking lights */}
             {active && [...Array(5)].map((_, i) => (
               <mesh key={i} position={[-4.5 + i * 0.2, -0.8, 1.1]} castShadow>
                 <sphereGeometry args={[0.05, 8, 8]} />
@@ -464,7 +426,6 @@ function Scene({ type, active = true }: SceneProps) {
         enablePan={false}
       />
       
-      {/* Text labels */}
       <Text 
         position={[0, -3, 0]}
         color={type === 'SIL' ? "#d97706" : "#2563eb"}
