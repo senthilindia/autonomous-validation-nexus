@@ -74,19 +74,24 @@ interface SimulationModelProps {
 }
 
 export function SimulationModel({ type, className, height = "200px" }: SimulationModelProps) {
+  const backgroundColor = type === 'SIL' ? "#fdf6e3" : "#e7f0fd";
+  
   return (
     <div className={`${className ?? ""}`} style={{ height }}>
       <Canvas shadows>
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 15, 10]} angle={0.3} penumbra={1} castShadow />
         <PerspectiveCamera makeDefault position={[8, 5, 8]} />
-        <fog attach="fog" args={['#f5f5f5', 15, 25]} />
+        <fog attach="fog" args={[backgroundColor, 15, 25]} />
+        
+        {/* Set background color */}
+        <color attach="background" args={[backgroundColor]} />
         
         {/* Ground */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
           <planeGeometry args={[30, 30]} />
           <meshStandardMaterial 
-            color={type === 'SIL' ? "#fdf6e3" : "#e7f0fd"} 
+            color={backgroundColor} 
             roughness={1} 
             metalness={0}
           />
