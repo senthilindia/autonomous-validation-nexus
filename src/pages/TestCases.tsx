@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { PageLayout } from "@/components/layout/PageLayout";
 
 const TestCases = () => {
   const testCases = [
@@ -32,9 +31,8 @@ const TestCases = () => {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 p-6 space-y-6">
+    <PageLayout>
+      <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Test Cases</h1>
           <div className="flex gap-2">
@@ -81,9 +79,8 @@ const TestCases = () => {
             </Card>
           ))}
         </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 
