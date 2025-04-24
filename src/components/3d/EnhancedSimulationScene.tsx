@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useGLTF, Text, Html } from '@react-three/drei';
@@ -257,7 +256,6 @@ function Ground({ type }: { type: 'SIL' | 'HIL' }) {
 
 // Data flow connections between processing units
 function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean }) {
-  // Change the ref type to match Three.js Line object instead of SVG line
   const lineRef = useRef<THREE.Line>(null);
   const [pulse, setPulse] = useState(0);
   
@@ -299,7 +297,6 @@ function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean })
         </bufferGeometry>
         <lineBasicMaterial 
           color={type === 'SIL' ? "#f6ad55" : "#63b3ed"}
-          linewidth={1}
           opacity={active ? 0.8 : 0.3}
           transparent
         />
