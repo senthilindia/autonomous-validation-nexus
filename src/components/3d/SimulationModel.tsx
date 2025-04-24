@@ -79,13 +79,11 @@ export function SimulationModel({ type, className, height = "200px" }: Simulatio
   return (
     <div className={`${className ?? ""}`} style={{ height }}>
       <Canvas shadows>
+        <color attach="background" args={[backgroundColor]} />
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 15, 10]} angle={0.3} penumbra={1} castShadow />
         <PerspectiveCamera makeDefault position={[8, 5, 8]} />
         <fog attach="fog" args={[backgroundColor, 15, 25]} />
-        
-        {/* Set background color */}
-        <color attach="background" args={[backgroundColor]} />
         
         {/* Ground */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>

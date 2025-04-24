@@ -117,7 +117,6 @@ function Scene({ type, active = true }: SceneProps) {
         position={[0, -3, 0]}
         color={type === 'SIL' ? "#d97706" : "#2563eb"}
         fontSize={0.5}
-        font="/fonts/inter-medium.woff"
         anchorX="center"
         anchorY="middle"
       >

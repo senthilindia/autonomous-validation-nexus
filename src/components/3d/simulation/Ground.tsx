@@ -1,5 +1,5 @@
 
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
 interface GroundProps {
@@ -28,8 +28,8 @@ export function Ground({ type }: GroundProps) {
 
   const colors = getGroundColors();
   
-  // Create a canvas-based gradient texture
-  const createGradientTexture = () => {
+  // Create a gradient texture using Three.js native methods
+  const gradientTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 512;
@@ -50,13 +50,7 @@ export function Ground({ type }: GroundProps) {
     texture.needsUpdate = true;
     
     return texture;
-  };
-  
-  // Create and memoize the texture
-  const gradientTexture = useRef<THREE.CanvasTexture>();
-  if (!gradientTexture.current) {
-    gradientTexture.current = createGradientTexture();
-  }
+  }, [colors.base, colors.grid]);
   
   return (
     <>
@@ -69,7 +63,7 @@ export function Ground({ type }: GroundProps) {
       >
         <planeGeometry args={[50, 50, 50, 50]} />
         <meshStandardMaterial 
-          map={gradientTexture.current}
+          map={gradientTexture}
           color={colors.base}
           roughness={0.8}
           metalness={0.2}
