@@ -38,19 +38,19 @@ function Vehicle(props: { color: string }) {
       
       {/* Wheels */}
       <mesh position={[-1.5, -0.8, 1.1]} castShadow>
-        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
         <meshStandardMaterial color="#333" />
       </mesh>
       <mesh position={[1.5, -0.8, 1.1]} castShadow>
-        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
         <meshStandardMaterial color="#333" />
       </mesh>
       <mesh position={[-1.5, -0.8, -1.1]} castShadow>
-        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
         <meshStandardMaterial color="#333" />
       </mesh>
       <mesh position={[1.5, -0.8, -1.1]} castShadow>
-        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} rotation={[Math.PI / 2, 0, 0]} />
+        <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
         <meshStandardMaterial color="#333" />
       </mesh>
       

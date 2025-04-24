@@ -46,7 +46,11 @@ function FloatingParticles({ count = 40 }) {
   return (
     <instancedMesh ref={instancedMeshRef} args={[undefined, undefined, count]}>
       <octahedronGeometry args={[0.2]} />
-      <meshStandardMaterial color="#8b5cf6" transparent opacity={0.6} />
+      <meshStandardMaterial 
+        color="#8b5cf6" 
+        transparent 
+        opacity={0.6} 
+      />
     </instancedMesh>
   );
 }
