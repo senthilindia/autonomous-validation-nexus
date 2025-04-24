@@ -257,6 +257,7 @@ function Ground({ type }: { type: 'SIL' | 'HIL' }) {
 
 // Data flow connections between processing units
 function Connections({ type, active }: { type: 'SIL' | 'HIL'; active: boolean }) {
+  // Change the ref type to match Three.js Line object instead of SVG line
   const lineRef = useRef<THREE.Line>(null);
   const [pulse, setPulse] = useState(0);
   
