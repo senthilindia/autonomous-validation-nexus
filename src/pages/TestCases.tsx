@@ -1,83 +1,28 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { PageLayout } from "@/components/layout/PageLayout";
 
 const TestCases = () => {
-  const testCases = [
-    {
-      id: "TC001",
-      name: "Emergency Brake Assist",
-      status: "Passed",
-      executionTime: "45s",
-      lastRun: "2024-04-23",
-      coverage: "95%"
-    },
-    {
-      id: "TC002",
-      name: "Lane Departure Warning",
-      status: "Failed",
-      executionTime: "32s",
-      lastRun: "2024-04-23",
-      coverage: "87%"
-    },
-    {
-      id: "TC003",
-      name: "Adaptive Cruise Control",
-      status: "In Progress",
-      executionTime: "28s",
-      lastRun: "2024-04-23",
-      coverage: "92%"
-    }
-  ];
-
   return (
     <PageLayout>
       <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Test Cases</h1>
-          <div className="flex gap-2">
-            <Badge variant="outline">Total: 150</Badge>
-            <Badge variant="default">Passed: 142</Badge>
-            <Badge variant="destructive">Failed: 8</Badge>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-helix-700 to-helix-500">
+          Test Cases
+        </h1>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="p-6 border rounded-lg shadow-sm bg-white">
+            <h3 className="font-medium mb-2">Collision Avoidance Tests</h3>
+            <p className="text-muted-foreground">Test scenarios for vehicle collision avoidance systems</p>
           </div>
-        </div>
-
-        <div className="grid gap-4">
-          {testCases.map((test) => (
-            <Card key={test.id}>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle className="text-lg">{test.name}</CardTitle>
-                  <Badge variant={
-                    test.status === "Passed" ? "default" :
-                    test.status === "Failed" ? "destructive" : "outline"
-                  }>
-                    {test.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground">Test ID</p>
-                    <p className="font-medium">{test.id}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Execution Time</p>
-                    <p className="font-medium">{test.executionTime}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Last Run</p>
-                    <p className="font-medium">{test.lastRun}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Coverage</p>
-                    <p className="font-medium">{test.coverage}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          
+          <div className="p-6 border rounded-lg shadow-sm bg-white">
+            <h3 className="font-medium mb-2">Lane Keeping Tests</h3>
+            <p className="text-muted-foreground">Lane keeping and lane departure warning system tests</p>
+          </div>
+          
+          <div className="p-6 border rounded-lg shadow-sm bg-white">
+            <h3 className="font-medium mb-2">Adaptive Cruise Control</h3>
+            <p className="text-muted-foreground">ACC functionality and edge case scenario tests</p>
+          </div>
         </div>
       </div>
     </PageLayout>

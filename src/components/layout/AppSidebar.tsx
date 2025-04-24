@@ -16,6 +16,7 @@ interface MenuItem {
   title: string;
   path: string;
   accessLevel: AccessLevel;
+  active?: boolean;
 }
 
 // Current user role - In a real app, this would come from authentication context
@@ -58,7 +59,7 @@ export function AppSidebar({ className }: SidebarProps) {
     >
       <div className="flex items-center h-14 px-3 border-b border-border">
         {!collapsed && (
-          <div className="text-lg font-semibold text-helix-700">Helix DTP</div>
+          <div className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-helix-700 to-helix-500">Helix DTP</div>
         )}
         <Button
           variant="ghost"
@@ -104,8 +105,8 @@ export function AppSidebar({ className }: SidebarProps) {
       
       <div className="p-2 border-t border-border">
         <div className="flex items-center p-2">
-          <div className="w-8 h-8 rounded-full bg-helix-100 flex items-center justify-center">
-            <span className="text-sm font-medium text-helix-700">MB</span>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-helix-500 to-helix-700 flex items-center justify-center">
+            <span className="text-sm font-medium text-white">MB</span>
           </div>
           {!collapsed && (
             <div className="ml-3">

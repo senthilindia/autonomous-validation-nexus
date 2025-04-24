@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SimulationCard, SimulationProps } from "@/components/simulations/SimulationCard";
@@ -54,7 +55,9 @@ const Simulations = () => {
     <PageLayout>
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Simulations</h1>
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-helix-700 to-helix-500">
+            Simulations
+          </h1>
           <div className="flex gap-2">
             <Badge variant="outline" className="flex items-center gap-1">
               <span className="h-2 w-2 rounded-full bg-amber-500"></span>

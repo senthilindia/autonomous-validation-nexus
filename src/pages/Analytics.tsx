@@ -1,34 +1,23 @@
 
 import { PageLayout } from "@/components/layout/PageLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 const Analytics = () => {
   return (
     <PageLayout>
       <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Analytics</h1>
-          <Badge variant="outline">System Overview</Badge>
-        </div>
-
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Performance Metrics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Placeholder for analytics content</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Test Coverage</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>Placeholder for test coverage analytics</p>
-            </CardContent>
-          </Card>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-helix-700 to-helix-500">
+          Analytics
+        </h1>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="p-6 border rounded-lg shadow-sm bg-white">
+            <h3 className="font-medium mb-2">Simulation Performance</h3>
+            <p className="text-muted-foreground">View performance metrics for all simulation runs</p>
+          </div>
+          
+          <div className="p-6 border rounded-lg shadow-sm bg-white">
+            <h3 className="font-medium mb-2">Test Coverage</h3>
+            <p className="text-muted-foreground">Analyze test coverage statistics and trends</p>
+          </div>
         </div>
       </div>
     </PageLayout>

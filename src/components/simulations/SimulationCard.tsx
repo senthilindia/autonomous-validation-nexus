@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Server, Database } from "lucide-react";
+import { SimulationModel } from "@/components/3d/SimulationModel";
 
 export interface SimulationProps {
   id: number;
@@ -41,6 +42,9 @@ export function SimulationCard({ simulation }: { simulation: SimulationProps }) 
         </Badge>
       </CardHeader>
       <CardContent>
+        <div className="mb-4 w-full">
+          <SimulationModel type={type} height="120px" />
+        </div>
         <div className="text-sm space-y-2">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Type:</span>
