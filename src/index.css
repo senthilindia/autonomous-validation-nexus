@@ -7,41 +7,51 @@
     --background: 250 33% 99%;
     --foreground: 222.2 84% 4.9%;
 
+    /* First Color Combination - Purple & Gold */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 258 90% 66%;
+    --primary: 271 81% 56%;
     --primary-foreground: 210 40% 98%;
-
-    --secondary: 252 29% 55%;
+    --secondary: 45 93% 47%;
     --secondary-foreground: 255 40% 98%;
-
     --muted: 252 33% 95%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 245 40% 96.1%;
+    --accent: 45 93% 47%;
     --accent-foreground: 252 47.4% 40%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 252 31.8% 91.4%;
     --input: 252 31.8% 91.4%;
-    --ring: 258 84% 70%;
-
+    --ring: 271 81% 56%;
     --radius: 0.5rem;
+  }
 
-    --sidebar-background: 258 50% 98%;
-    --sidebar-foreground: 252 60% 30%;
-    --sidebar-primary: 258 90% 66%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 252 45% 95%;
-    --sidebar-accent-foreground: 252 60% 30%;
-    --sidebar-border: 252 30% 91%;
-    --sidebar-ring: 258 84% 70%;
+  [data-theme="ocean"] {
+    /* Second Color Combination - Ocean Blues */
+    --primary: 201 96% 32%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 190 90% 50%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 200 33% 95%;
+    --muted-foreground: 200 16% 46%;
+    --ring: 201 96% 32%;
+  }
+
+  [data-theme="sunset"] {
+    /* Third Color Combination - Warm Sunset */
+    --primary: 21 90% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 43 96% 56%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 0 91% 71%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 20 33% 95%;
+    --muted-foreground: 20 16% 46%;
+    --ring: 21 90% 48%;
   }
 
   .dark {
